@@ -76,12 +76,3 @@ $ ./venv.sh list
 # Install a new package
 $ ./venv.sh install django~=4.0.0
 ```
-
-## Author
-
-- Mostafa Abdullhuq
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```
