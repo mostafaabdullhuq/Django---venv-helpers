@@ -4,7 +4,7 @@
 # Description: This shell script is a command-line tool for managing django projects.
 # It provides several commands to create project, create an app, migrate, and run server
 #
-# Usage: venv <create|start|stop|requirements|list|install|create|--help|-h> [options]
+# Usage: django <project|app|migrate|run|--help|-h> [options]
 #
 
 
