@@ -7,7 +7,7 @@
 # Usage: django <project|app|migrate|run|--help|-h> [options]
 #
 
-USAGE="[+] Usage: django <project|app|migrate|run|--help|-h> [options]"
+USAGE="[+] Usage: django <project|app|migrate|run|test|--help|-h> [options]"
 
 #? if no argument provided to venv
 if [[ -z $1 ]]; then
@@ -44,6 +44,9 @@ else
 		echo ""
 		echo "  To run the django default server:"
 		echo "  $ django run"
+		echo ""
+		echo "  To run tests in current project:"
+		echo "  $ django test"
 	#? create new django project
 	elif [[ $1 == "project" ]]; then
 		if [[ -z $2 ]]; then
@@ -74,12 +77,19 @@ else
 		if [[ -z $2 ]]; then
 			python manage.py migrate
 		else
-
 			if python manage.py migrate "$2"; then
 				echo "[+] Project created successfully."
 			else
 				echo "[+] Error: Cannot create django project $2."
 			fi
+		fi
+
+	#? run tests
+	elif [[ $1 == "test" ]]; then
+		if python manage.py test; then
+			echo "[+] Tests ran successfully."
+		else
+			echo "[+] Error: Cannot run tests."
 		fi
 	#? start server for django
 	elif [[ $1 == "run" ]]; then
