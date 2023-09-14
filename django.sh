@@ -7,7 +7,7 @@
 # Usage: django <project|app|migrate|run|--help|-h> [options]
 #
 
-USAGE="[+] Usage: django <project|app|migrate|run|test|--help|-h> [options]"
+USAGE="[+] Usage: django [project|app|migrate|run|test|--help|-h] [options]"
 
 #? if no argument provided to venv
 if [[ -z $1 ]]; then
@@ -47,6 +47,9 @@ else
 		echo ""
 		echo "  To run tests in current project:"
 		echo "  $ django test"
+		echo ""
+		echo "  To use custom django command:"
+		echo "  $ django <your_command>"
 	#? create new django project
 	elif [[ $1 == "project" ]]; then
 		if [[ -z $2 ]]; then
@@ -57,7 +60,7 @@ else
 			if django-admin startproject "$2" .; then
 				echo "[+] Project created successfully."
 			else
-				echo "[+] Error: Cannot create django project $2."
+				echo "[+] Error: Cannot create django project [$2]."
 			fi
 		fi
 	#? create new django app
@@ -69,7 +72,7 @@ else
 			if python manage.py startapp "$2"; then
 				echo "[+] Project created successfully."
 			else
-				echo "[+] Error: Cannot create django project $2."
+				echo "[+] Error: Cannot create django project [$2]."
 			fi
 		fi
 	#? make database migrations
@@ -80,7 +83,7 @@ else
 			if python manage.py migrate "$2"; then
 				echo "[+] Project created successfully."
 			else
-				echo "[+] Error: Cannot create django project $2."
+				echo "[+] Error: Cannot create django project [$2]."
 			fi
 		fi
 
@@ -101,7 +104,10 @@ else
 
 	#? if another option given
 	else
-		echo "[+] Invalid option: $1"
-		echo "${USAGE}"
+		if python manage.py "$@"; then
+			echo "[+] Command: [python manage.py $@] executed successfully."
+		else
+			echo "[+] Error: Cannot execute command [python manage.py $@]."
+		fi
 	fi
 fi
