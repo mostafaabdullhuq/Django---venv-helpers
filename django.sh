@@ -89,7 +89,7 @@ else
 		if python manage.py test; then
 			echo "[+] Tests ran successfully."
 		else
-			echo "[+] Error: Cannot run tests."
+			echo "[+] Error: Either tests cannot be run or tests failed."
 		fi
 	#? start server for django
 	elif [[ $1 == "run" ]]; then
