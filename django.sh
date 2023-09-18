@@ -8,6 +8,7 @@
 #
 
 USAGE="[+] Usage: django [project|app|migrate|run|test|--help|-h] [options]"
+PYTHON="./.venv/bin/python"
 
 #? if no argument provided to venv
 if [[ -z $1 ]]; then
@@ -60,7 +61,7 @@ else
 			if django-admin startproject "$2" .; then
 				echo "[+] Project created successfully."
 			else
-				echo "[+] Error: Cannot create django project [$2]."
+				echo "[+] Error: Cannot execute command [django-admin startproject $2]."
 			fi
 		fi
 	#? create new django app
@@ -69,45 +70,45 @@ else
 			echo "[+] Please provide app name."
 			echo "[+] Use django --help or -h for more information."
 		else
-			if python manage.py startapp "$2"; then
-				echo "[+] Project created successfully."
+			if "${PYTHON}" manage.py startapp "$2"; then
+				echo "[+] App created successfully."
 			else
-				echo "[+] Error: Cannot create django project [$2]."
+				echo "[+] Error: Cannot execute command [${PYTHON} manage.py startapp $2]."
 			fi
 		fi
 	#? make database migrations
 	elif [[ $1 == "migrate" ]]; then
 		if [[ -z $2 ]]; then
-			python manage.py migrate
+			"${PYTHON}" manage.py migrate
 		else
-			if python manage.py migrate "$2"; then
-				echo "[+] Project created successfully."
+			if "${PYTHON}" manage.py migrate "$2"; then
+				echo "[+] Migrations created successfully."
 			else
-				echo "[+] Error: Cannot create django project [$2]."
+				echo "[+] Error: Cannot execute command [${PYTHON} manage.py migrate $*]."
 			fi
 		fi
 
 	#? run tests
 	elif [[ $1 == "test" ]]; then
-		if python manage.py test; then
+		if "${PYTHON}" manage.py test; then
 			echo "[+] Tests ran successfully."
 		else
 			echo "[+] Error: Either tests cannot be run or tests failed."
 		fi
 	#? start server for django
 	elif [[ $1 == "run" ]]; then
-		if python manage.py runserver; then
+		if "${PYTHON}" manage.py runserver; then
 			echo "[+] Django server started successfully."
 		else
-			echo "[+] Error: Cannot run django server."
+			echo "[+] Error: Cannot execute command [${PYTHON} manage.py runserver]."
 		fi
 
 	#? if another option given
 	else
-		if python manage.py "$@"; then
-			echo "[+] Command: [python manage.py $@] executed successfully."
+		if "${PYTHON}" manage.py "$@"; then
+			echo "[+] Command: [${PYTHON} manage.py $*] executed successfully."
 		else
-			echo "[+] Error: Cannot execute command [python manage.py $@]."
+			echo "[+] Error: Cannot execute command [${PYTHON} manage.py $*]."
 		fi
 	fi
 fi

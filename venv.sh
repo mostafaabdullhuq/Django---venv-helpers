@@ -10,6 +10,7 @@
 
 USAGE="[+] Usage: venv <create|start|stop|requirements|list|install|create|--help> [options]"
 VENV="${PWD}/.venv"
+PYTHON="${VENV}/bin/python"
 
 if [[ -z $1 ]]; then
 	echo "[+] Please provide an option."
@@ -49,16 +50,18 @@ else
 
 	#? create new virtual environment in the current path
 	elif [[ $1 == "create" ]]; then
-
 		if python -m venv .venv; then
 			echo "[+] Virtual environment created successfully."
+			if source "${VENV}/bin/activate"; then
+				echo "[+] Virtual environment started successfully."
+			else
+				echo "[+] Error: Virtual environment activation failed."
+			fi
 		else
 			echo "[+] Error: Virtual environment creation failed."
 		fi
-
 	#? start the virtual environment that in the current path
 	elif [[ $1 == "start" ]]; then
-
 		if source "${VENV}/bin/activate"; then
 			echo "[+] Virtual environment started successfully."
 		else
@@ -79,8 +82,7 @@ else
 			echo "[+] Please provide a package name."
 			echo "[+] use venv --help for more help"
 		else
-
-			if python3 -m pip install "$2"; then
+			if "${PYTHON}" -m pip install "$2"; then
 				echo "[+] Package installed successfully."
 			else
 				echo "[+] Error: Cannot install package $2."
@@ -89,11 +91,11 @@ else
 
 	#? write dependencies of the current virtual environment in requirements.txt
 	elif [[ $1 == "requirements" ]]; then
-		pip freeze >./requirements.txt
+		"${PYTHON}" -m pip freeze >./requirements.txt
 
 	#? list the current virtual environment depenediences
 	elif [[ $1 == "list" ]]; then
-		pip freeze
+		"${PYTHON}" -m pip freeze
 
 	#? if another option given
 	else
